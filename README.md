@@ -3,7 +3,7 @@
 Personal portfolio site for **Tejas Bhandari**, Analytics Engineer & Senior Data
 Analyst with 8+ years in financial services data (credit, risk, lending).
 
-**Live site:** https://bhandarytejas.github.io/portfolio_website/
+**Live site:** [https://bhandarytejas.github.io/portfolio_website/](https://bhandarytejas.github.io/DA-AE-portfolio_website/)
 
 ## About
 
