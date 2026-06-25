@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tejas Bhandari — Analytics Engineer & Senior Data Analyst</title>
+<meta name="description" content="Tejas Bhandari builds the data foundations behind high-stakes financial decisions: governed pipelines, dimensional models, and identity resolution across credit, risk, and lending." />
+
+<!-- Fonts: Space Grotesk (display), IBM Plex Sans (body), IBM Plex Mono (data readouts) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --ink:#0E1626;          /* deep blue-ink — hero & footer */
+    --ink-2:#16223A;        /* raised panel on ink */
+    --paper:#F6F7F9;        /* cool page background */
+    --card:#FFFFFF;
+    --text:#1A2232;         /* body text on paper */
+    --muted:#5A6678;        /* secondary text */
+    --muted-ink:#9AA7BD;    /* secondary text on ink */
+    --line:#E3E7ED;         /* hairlines on paper */
+    --line-ink:rgba(255,255,255,.10);
+    --accent:#2D5BFF;       /* the single confident accent */
+    --accent-soft:rgba(45,91,255,.10);
+
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --body:"IBM Plex Sans", system-ui, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+
+    --maxw:1140px;
+    --pad:clamp(20px,5vw,64px);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#fff;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+
+  /* ---------- focus visibility ---------- */
+  a:focus-visible,button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;border-radius:2px;
+  }
+
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);display:inline-block;}
+
+  /* ====================== NAV ====================== */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,247,249,.82);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:-.01em;}
+  .brand .dot{color:var(--accent);}
+  .nav-links{display:flex;gap:30px;align-items:center;}
+  .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    font-family:var(--mono);font-size:13px;
+    border:1px solid var(--text);padding:8px 16px;border-radius:999px;
+    color:var(--text);transition:all .2s;
+  }
+  .nav-cta:hover{background:var(--text);color:var(--paper);}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--text);margin:4px 0;transition:.25s;}
+
+  /* ====================== HERO ====================== */
+  .hero{
+    background:var(--ink);
+    color:#fff;
+    position:relative;overflow:hidden;
+  }
+  /* faint ledger grid in the hero — grounded in the "data instrument" idea */
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line-ink) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-ink) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(120% 90% at 75% 0%,#000 0%,transparent 70%);
+            mask-image:radial-gradient(120% 90% at 75% 0%,#000 0%,transparent 70%);
+    opacity:.6;
+  }
+  .hero-inner{position:relative;padding-top:clamp(56px,9vw,104px);padding-bottom:clamp(40px,6vw,64px);}
+  .hero h1{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(2.6rem,7vw,5rem);
+    line-height:1.02;letter-spacing:-.025em;
+    margin:.5em 0 .35em;
+  }
+  .hero h1 .accent{color:var(--accent);}
+  .role-line{
+    font-family:var(--mono);
+    font-size:clamp(.85rem,2.4vw,1.05rem);
+    color:var(--muted-ink);letter-spacing:.02em;
+    display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;
+  }
+  .role-line .sep{color:var(--accent);}
+  .lede{
+    max-width:660px;margin:26px 0 0;
+    font-size:clamp(1.05rem,2.5vw,1.3rem);line-height:1.5;color:#E7ECF4;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
+  .btn{
+    font-family:var(--mono);font-size:14px;
+    padding:13px 22px;border-radius:999px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:9px;transition:all .2s;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:#1f49df;transform:translateY(-1px);}
+  .btn-ghost{border-color:var(--line-ink);color:#fff;}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+
+  /* hero readout strip */
+  .readout{
+    position:relative;
+    margin-top:clamp(44px,6vw,68px);
+    border-top:1px solid var(--line-ink);
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .readout .stat{
+    padding:26px 26px 26px 0;
+    border-right:1px solid var(--line-ink);
+  }
+  .readout .stat:last-child{border-right:0;}
+  .stat .num{
+    font-family:var(--mono);font-weight:500;
+    font-size:clamp(1.7rem,4vw,2.5rem);line-height:1;letter-spacing:-.01em;
+    color:#fff;
+  }
+  .stat .num .u{color:var(--accent);}
+  .stat .cap{display:block;margin-top:10px;font-size:13px;color:var(--muted-ink);line-height:1.45;max-width:20ch;}
+
+  /* ====================== SECTION SHELL ====================== */
+  section{padding:clamp(64px,9vw,108px) 0;}
+  .sec-head{margin-bottom:clamp(34px,5vw,56px);max-width:720px;}
+  .sec-head h2{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(1.8rem,4.5vw,2.7rem);letter-spacing:-.02em;line-height:1.08;
+    margin:16px 0 0;
+  }
+  .sec-head p{color:var(--muted);margin:16px 0 0;font-size:1.05rem;}
+
+  /* ====================== ABOUT ====================== */
+  .about-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:clamp(32px,5vw,72px);align-items:start;}
+  .about-body p{margin:0 0 18px;font-size:1.08rem;}
+  .about-body p:last-child{margin-bottom:0;}
+  .about-body strong{font-weight:600;color:var(--text);}
+  .facts{border-top:1px solid var(--line);}
+  .facts .row{
+    display:flex;justify-content:space-between;gap:18px;
+    padding:15px 0;border-bottom:1px solid var(--line);
+  }
+  .facts .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .facts .v{font-size:14px;text-align:right;font-weight:500;}
+
+  /* ====================== WORK ====================== */
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+  .card{
+    grid-column:span 1;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px 30px 26px;
+    display:flex;flex-direction:column;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .card.feature{grid-column:1 / -1;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(14,22,38,.35);border-color:#cfd6e0;}
+  .card .ctx{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .card h3{font-family:var(--display);font-weight:600;font-size:1.35rem;letter-spacing:-.01em;margin:12px 0 0;line-height:1.2;}
+  .card.feature h3{font-size:clamp(1.5rem,3vw,2rem);}
+  .card .metric{
+    font-family:var(--mono);font-weight:600;
+    font-size:clamp(1.5rem,3vw,2.1rem);color:var(--accent);
+    line-height:1;margin:18px 0 2px;letter-spacing:-.01em;
+  }
+  .card .metric small{font-family:var(--mono);font-weight:400;font-size:.6em;color:var(--muted);letter-spacing:.03em;display:block;margin-top:8px;}
+  .card .desc{color:var(--text);margin:16px 0 0;font-size:.98rem;line-height:1.55;}
+  .card.feature .feature-cols{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;margin-top:6px;}
+  .card .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:22px;}
+  .tag{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;
+    color:var(--muted);background:var(--paper);border:1px solid var(--line);
+    padding:5px 10px;border-radius:6px;
+  }
+  .card.feature .metric-row{display:flex;flex-wrap:wrap;gap:36px;margin-top:8px;}
+  .card.feature .metric-row .m .metric{margin-top:0;}
+
+  /* ====================== SKILLS ====================== */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line);}
+  .skill-block{padding:28px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:200px 1fr;gap:24px;}
+  .skill-block h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:6px 0 0;font-weight:500;}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{font-size:14px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);transition:all .2s;}
+  .chip:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* ====================== EXPERIENCE ====================== */
+  .timeline{border-top:1px solid var(--line);}
+  .tl-item{
+    display:grid;grid-template-columns:200px 1fr;gap:28px;
+    padding:30px 0;border-bottom:1px solid var(--line);
+  }
+  .tl-when{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.02em;}
+  .tl-when .now{color:var(--accent);}
+  .tl-role{font-family:var(--display);font-weight:600;font-size:1.25rem;letter-spacing:-.01em;margin:0;}
+  .tl-org{color:var(--muted);font-size:14px;margin:5px 0 0;font-family:var(--mono);}
+  .tl-desc{margin:14px 0 0;color:var(--text);font-size:.98rem;max-width:62ch;}
+
+  .edu-row{display:flex;flex-wrap:wrap;gap:14px 40px;margin-top:30px;}
+  .edu{display:flex;flex-direction:column;gap:3px;}
+  .edu .deg{font-weight:600;}
+  .edu .meta{font-family:var(--mono);font-size:12.5px;color:var(--muted);}
+
+  /* ====================== CONTACT / FOOTER ====================== */
+  .contact{background:var(--ink);color:#fff;position:relative;overflow:hidden;}
+  .contact::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(90deg,var(--line-ink) 1px,transparent 1px);
+    background-size:64px 100%;
+    -webkit-mask-image:linear-gradient(180deg,#000,transparent 60%);
+            mask-image:linear-gradient(180deg,#000,transparent 60%);
+    opacity:.5;
+  }
+  .contact-inner{position:relative;}
+  .contact h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,5.5vw,3.4rem);letter-spacing:-.025em;line-height:1.05;margin:18px 0 0;}
+  .contact h2 a{color:var(--accent);text-decoration:none;border-bottom:2px solid transparent;transition:border-color .2s;}
+  .contact h2 a:hover{border-color:var(--accent);}
+  .contact-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px;}
+  .clink{
+    font-family:var(--mono);font-size:14px;
+    border:1px solid var(--line-ink);border-radius:999px;padding:12px 20px;
+    display:inline-flex;align-items:center;gap:10px;transition:all .2s;color:#fff;
+  }
+  .clink:hover{border-color:#fff;background:rgba(255,255,255,.06);transform:translateY(-1px);}
+  .clink .ic{color:var(--accent);font-weight:600;}
+  .foot{
+    position:relative;border-top:1px solid var(--line-ink);margin-top:clamp(48px,7vw,80px);
+    padding:26px 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+    font-family:var(--mono);font-size:12.5px;color:var(--muted-ink);
+  }
+
+  /* ====================== CERTIFICATIONS ====================== */
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;}
+  .cert{margin:0;}
+  .cert button, .cert a{
+    width:100%;display:block;cursor:pointer;text-align:left;padding:0;font:inherit;color:inherit;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .cert button:hover, .cert a:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(14,22,38,.35);border-color:#cfd6e0;}
+  .cert .thumb{
+    aspect-ratio:4/3;background:var(--paper);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .cert .thumb img{width:100%;height:100%;object-fit:contain;padding:14px;}
+  .cert .thumb.missing{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em;}
+  .cert .thumb.missing::after{content:"drop image in /certificates";}
+  .cert figcaption{padding:16px 18px 18px;}
+  .cert .cname{font-weight:600;font-size:1rem;line-height:1.3;display:block;}
+  .cert .cissuer{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px;letter-spacing:.03em;display:block;}
+  .cert .view{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:11px;display:inline-block;}
+
+  /* lightbox */
+  .lb{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(8,12,20,.88);backdrop-filter:blur(4px);padding:24px;
+  }
+  .lb.open{display:flex;}
+  .lb img{
+    max-width:min(92vw,1000px);max-height:82vh;object-fit:contain;
+    border-radius:8px;background:#fff;box-shadow:0 30px 80px -20px rgba(0,0,0,.6);
+  }
+  .lb-cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;color:#fff;font-family:var(--mono);font-size:13px;}
+  .lb-close{
+    position:absolute;top:18px;right:22px;width:42px;height:42px;border-radius:999px;cursor:pointer;
+    background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:22px;line-height:1;
+  }
+  .lb-close:hover{background:rgba(255,255,255,.12);}
+
+  /* ====================== REVEAL ANIMATION ====================== */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1 !important;transform:none !important;transition:none;}
+    *{transition:none !important;}
+  }
+
+  /* ====================== RESPONSIVE ====================== */
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;}
+    .work-grid{grid-template-columns:1fr;}
+    .card.feature .feature-cols{grid-template-columns:1fr;gap:22px;}
+    .skills-grid{grid-template-columns:1fr;}
+    .skill-block{grid-template-columns:1fr;gap:14px;}
+    .tl-item{grid-template-columns:1fr;gap:10px;}
+    .readout{grid-template-columns:repeat(2,1fr);}
+    .readout .stat:nth-child(2){border-right:0;}
+    .readout .stat{padding-right:18px;}
+  }
+  @media (max-width:680px){
+    .nav-links{
+      position:absolute;top:64px;left:0;right:0;
+      flex-direction:column;align-items:flex-start;gap:0;
+      background:var(--paper);border-bottom:1px solid var(--line);
+      padding:8px var(--pad) 18px;
+      transform:translateY(-130%);transition:transform .3s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-links a{padding:12px 0;width:100%;border-bottom:1px solid var(--line);}
+    .nav-links .nav-cta{border:1px solid var(--text);margin-top:12px;width:auto;}
+    .nav-toggle{display:block;}
+    .readout{grid-template-columns:1fr 1fr;}
+    .stat .cap{max-width:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">Tejas&nbsp;Bhandari<span class="dot">.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#work">Selected work</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" style="padding:0;">
+  <div class="wrap hero-inner">
+    <span class="eyebrow reveal">Analytics Engineer · Financial Services</span>
+    <h1 class="reveal">Data foundations<br>behind <span class="accent">high-stakes</span><br>decisions.</h1>
+    <div class="role-line reveal">
+      <span>United States</span><span class="sep">/</span>
+      <span>8+ years</span><span class="sep">/</span>
+      <span>credit · risk · lending</span>
+    </div>
+    <p class="lede reveal">
+      I’m Tejas — I build the pipelines, dimensional models, and identity-resolution
+      logic that turn ambiguous requirements into governed, well-documented data products.
+      Most of that work sits under credit, risk, and regulatory reporting, where being
+      wrong is expensive.
+    </p>
+    <div class="hero-actions reveal">
+      <a href="#work" class="btn btn-primary">See selected work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+
+    <!-- instrument readout: career-scale figures -->
+    <div class="readout reveal" id="readout">
+      <div class="stat">
+        <div class="num" data-count="9" data-dec="0" data-prefix="$" data-suffix="B"></div>
+        <span class="cap">disbursed across the PPP loan platform</span>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="3" data-dec="0" data-prefix="$" data-suffix="T"></div>
+        <span class="cap">single-family models supported at Freddie Mac</span>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="4.9" data-dec="1" data-suffix="M"></div>
+        <span class="cap">loans monitored · $1.5T exposure</span>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="95" data-dec="0" data-suffix="%"></div>
+        <span class="cap">runtime cut on a $3T validation pipeline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <span class="eyebrow">About</span>
+        <h2 style="font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,4vw,2.4rem);letter-spacing:-.02em;line-height:1.12;margin:18px 0 26px;">
+          I build analytics foundations from scratch, with a product-owner mindset.
+        </h2>
+        <p>
+          Over eight years across <strong>Capital One</strong>, <strong>Freddie Mac</strong>,
+          and <strong>T-Mobile</strong>, I’ve specialized in the unglamorous-but-critical
+          layer: ELT pipelines, dimensional models, and data-quality frameworks on the
+          modern data stack — Snowflake, Databricks, and dbt — inside regulated,
+          compliance-heavy environments.
+        </p>
+        <p>
+          My favourite problems are the ambiguous ones. Resolving millions of accounts into
+          a single <strong>canonical record</strong>. Preserving accurate
+          <strong>point-in-time history</strong> through transfers and reorganizations.
+          Taking a slow, manual validation process and re-architecting it until it’s fast,
+          governed, and trusted. I partner closely with Finance, Risk, People, and
+          Technology, and I use AI tooling pragmatically to move faster on pipelines and
+          documentation.
+        </p>
+        <p>
+          I’m currently targeting <strong>Analytics Engineer</strong> and
+          <strong>Senior Data Analyst</strong> roles in Toronto.
+        </p>
+      </div>
+      <aside class="reveal">
+        <div class="facts">
+          <div class="row"><span class="k">Based in</span><span class="v">United States · Canadian PR</span></div>
+          <div class="row"><span class="k">Experience</span><span class="v">8+ years · Financial Services</span></div>
+          <div class="row"><span class="k">Focus</span><span class="v">Analytics Engineering · Data Analysis</span></div>
+          <div class="row"><span class="k">Domains</span><span class="v">Credit · Risk · Mortgage · Lending</span></div>
+          <div class="row"><span class="k">Stack</span><span class="v">SQL · Python · Snowflake · dbt · Databricks</span></div>
+          <div class="row"><span class="k">Education</span><span class="v">M.S. Information Systems, Stevens</span></div>
+          <div class="row"><span class="k">Certified</span><span class="v">dbt Fundamentals · MIT IDSS (ML)</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SELECTED WORK ============ -->
+<section id="work" style="background:linear-gradient(180deg,#fff 0%,var(--paper) 100%);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Selected work</span>
+      <h2>Six builds that moved real money.</h2>
+      <p>A sample of pipelines, models, and frameworks I’ve shipped in production. Client names are real; figures reflect the scale of the systems and portfolios involved.</p>
+    </div>
+
+    <div class="work-grid">
+
+      <!-- FEATURE -->
+      <article class="card feature reveal">
+        <div class="feature-cols">
+          <div>
+            <span class="ctx">Capital One · Small Business Banking</span>
+            <h3>PPP Loan Origination Platform</h3>
+            <p class="desc">
+              Architected the Databricks ETL/ELT pipelines — modular Python and nCino API
+              ingestion feeding Snowflake models — that powered loan origination during the
+              Paycheck Protection Program. Built real-time data-quality checks and field
+              validation so the platform stayed reliable while volume scaled to 1.5–2M
+              applications, and mentored four analysts on the data models and business logic.
+            </p>
+            <div class="tags">
+              <span class="tag">Databricks</span><span class="tag">Python</span>
+              <span class="tag">Snowflake</span><span class="tag">nCino API</span>
+              <span class="tag">ELT</span><span class="tag">Data Quality</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <div class="m"><div class="metric">$9B<small>disbursed across 200K small-business loans</small></div></div>
+            <div class="m"><div class="metric">40K<small>applications processed daily</small></div></div>
+            <div class="m"><div class="metric">−30% / −80%<small>processing time / manual effort</small></div></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="card reveal">
+        <span class="ctx">Capital One · Business & Card Platform</span>
+        <h3>Identity Resolution &amp; Canonical Records</h3>
+        <div class="metric">millions<small>accounts resolved to one stable identifier</small></div>
+        <p class="desc">
+          Engineered identity-resolution logic that generated a single, consistent unique
+          ID across small-business and commercial card accounts — using SSN and TIN as
+          primary keys with conditional fallback rules to collapse linked accounts into one
+          canonical record.
+        </p>
+        <div class="tags"><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Entity Matching</span><span class="tag">PII Handling</span></div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="card reveal">
+        <span class="ctx">Capital One · Compensation</span>
+        <h3>Effective-Dated Dimensional Models</h3>
+        <div class="metric">200+ RMs<small>mapped to regions across time</small></div>
+        <p class="desc">
+          Designed slowly-changing, effective-dated dimensional models in Snowflake that
+          preserved accurate point-in-time assignments through transfers and rookie periods —
+          driving quarterly compensation tied to millions of dollars in customer spend.
+        </p>
+        <div class="tags"><span class="tag">Snowflake</span><span class="tag">SCD 1/2/3</span><span class="tag">Point-in-Time</span><span class="tag">Dimensional Modeling</span></div>
+      </article>
+
+      <!-- CARD 4 -->
+      <article class="card reveal">
+        <span class="ctx">Freddie Mac · Single-Family Modeling</span>
+        <h3>Data Quality Framework</h3>
+        <div class="metric">8h → 20min<small>−95% runtime on $3T validation</small></div>
+        <p class="desc">
+          Re-architected a slow, sequential validation pipeline feeding $3T in single-family
+          modeling — applying 40-process parallelization across six quality dimensions
+          (reasonableness, completeness, validity, uniqueness, timeliness, conformity) and
+          three credit bureaus, with automated outlier and duplicate detection.
+        </p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Multiprocessing</span><span class="tag">Power BI</span><span class="tag">Data Validation</span></div>
+      </article>
+
+      <!-- CARD 5 -->
+      <article class="card reveal">
+        <span class="ctx">Freddie Mac · Risk Monitoring</span>
+        <h3>Portfolio Risk Monitoring (TOB)</h3>
+        <div class="metric">4.9M loans<small>$1.5T in mortgage exposure</small></div>
+        <p class="desc">
+          Built an automated pipeline and Tableau dashboard comparing actual vs. synthetic
+          delinquency (E90/D120) across volume, profile, and performance dimensions. Outlier
+          segments were flagged for deep-dive review and drove policy decisions to expire
+          high-risk terms of business.
+        </p>
+        <div class="tags"><span class="tag">Tableau</span><span class="tag">SQL</span><span class="tag">Pipeline Automation</span><span class="tag">Risk Analytics</span></div>
+      </article>
+
+      <!-- CARD 6 -->
+      <article class="card reveal">
+        <span class="ctx">Capital One · Card Portfolios</span>
+        <h3>Rebate Engine Recovery</h3>
+        <div class="metric">$900K<small>annualized savings recovered</small></div>
+        <p class="desc">
+          Uncovered $1M+ in revenue leakage from interchange-rate discrepancies across the
+          small-business and commercial card portfolios, forensically traced vendor impact,
+          and rebuilt the rebate engine in Python/SQL/Hive with corrected rates and change
+          controls to prevent recurrence.
+        </p>
+        <div class="tags"><span class="tag">Python (Pandas)</span><span class="tag">SQL</span><span class="tag">Hive</span><span class="tag">Change Governance</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Capabilities</span>
+      <h2>The toolkit.</h2>
+    </div>
+    <div class="skills-grid reveal" style="display:block;">
+      <div class="skill-block">
+        <h4>Languages &amp; Query</h4>
+        <div class="chips">
+          <span class="chip">SQL (Advanced)</span><span class="chip">Window functions</span>
+          <span class="chip">CTEs</span><span class="chip">Date-spine logic</span>
+          <span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h4>Modern Data Stack</h4>
+        <div class="chips">
+          <span class="chip">Snowflake</span><span class="chip">Databricks</span><span class="chip">dbt</span>
+          <span class="chip">Spark</span><span class="chip">Airflow</span><span class="chip">Prefect</span>
+          <span class="chip">Git / GitHub</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h4>Modeling &amp; Quality</h4>
+        <div class="chips">
+          <span class="chip">Dimensional Modeling</span><span class="chip">SCD 1/2/3</span>
+          <span class="chip">Point-in-Time</span><span class="chip">Identity Resolution</span>
+          <span class="chip">Semantic Layer</span><span class="chip">Metric Definitions</span>
+          <span class="chip">Data Quality Frameworks</span><span class="chip">Data Governance</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h4>Cloud &amp; BI</h4>
+        <div class="chips">
+          <span class="chip">AWS (S3, EC2, Redshift, EMR)</span>
+          <span class="chip">Tableau (Advanced)</span><span class="chip">Power BI (Advanced)</span>
+          <span class="chip">QuickSight</span><span class="chip">Looker</span>
+        </div>
+      </div>
+      <div class="skill-block" style="border-bottom:0;">
+        <h4>Domain</h4>
+        <div class="chips">
+          <span class="chip">Credit &amp; Lending</span><span class="chip">Mortgage Portfolio Risk</span>
+          <span class="chip">Regulatory Reporting</span><span class="chip">Workforce Analytics</span>
+          <span class="chip">Data Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CERTIFICATIONS ============ -->
+<section id="certifications" style="background:#fff;border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Credentials</span>
+      <h2>Certifications.</h2>
+      <p>Verified coursework and credentials behind the toolkit. Click any to view the full certificate.</p>
+    </div>
+
+    <div class="cert-grid reveal">
+
+      <figure class="cert">
+        <button type="button" data-full="Certificates/databricks-fundamentals.jpg" data-cap="Databricks Fundamentals Accreditation — Databricks Academy, 2026">
+          <span class="thumb"><img src="Certificates/databricks-fundamentals.jpg" alt="Databricks Fundamentals Accreditation certificate" loading="lazy" onerror="this.parentNode.classList.add('missing');this.remove()" /></span>
+          <figcaption>
+            <span class="cname">Databricks Fundamentals Accreditation</span>
+            <span class="cissuer">Databricks Academy · 2026</span>
+            <span class="view">View certificate ↗</span>
+          </figcaption>
+        </button>
+      </figure>
+
+      <figure class="cert">
+        <button type="button" data-full="Certificates/databricks-genai-fundamentals.jpg" data-cap="Generative AI Fundamentals — Databricks Academy, 2026">
+          <span class="thumb"><img src="Certificates/databricks-genai-fundamentals.jpg" alt="Databricks Accredited Generative AI Fundamentals certificate" loading="lazy" onerror="this.parentNode.classList.add('missing');this.remove()" /></span>
+          <figcaption>
+            <span class="cname">Generative AI Fundamentals</span>
+            <span class="cissuer">Databricks Academy · 2026</span>
+            <span class="view">View certificate ↗</span>
+          </figcaption>
+        </button>
+      </figure>
+
+      <figure class="cert">
+        <a href="https://credentials.getdbt.com/3b175da3-f2c1-4318-bace-b43e655d7403#acc.9DytJ3EM" target="_blank" rel="noopener">
+          <span class="thumb"><img src="Certificates/dbt-fundamentals.jpg" alt="dbt Fundamentals certificate" loading="lazy" onerror="this.parentNode.classList.add('missing');this.remove()" /></span>
+          <figcaption>
+            <span class="cname">dbt Fundamentals</span>
+            <span class="cissuer">dbt Labs</span>
+            <span class="view">Verify credential ↗</span>
+          </figcaption>
+        </a>
+      </figure>
+
+      <figure class="cert">
+        <button type="button" data-full="Certificates/mit-idss.jpg" data-cap="Data Science &amp; Machine Learning — MIT IDSS">
+          <span class="thumb"><img src="Certificates/mit-idss.jpg" alt="MIT IDSS Data Science and Machine Learning certificate" loading="lazy" onerror="this.parentNode.classList.add('missing');this.remove()" /></span>
+          <figcaption>
+            <span class="cname">Data Science &amp; Machine Learning</span>
+            <span class="cissuer">MIT IDSS</span>
+            <span class="view">View certificate ↗</span>
+          </figcaption>
+        </button>
+      </figure>
+
+      <!--
+        ADD MORE: copy one <figure class="cert"> … </figure> block, then
+        (1) change both "Certificates/your-file.jpg" paths to your new image,
+        (2) update data-cap, the alt text, .cname and .cissuer.
+        Keep filenames lowercase with no spaces (e.g. snowpro-core.jpg).
+      -->
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" style="background:#fff;border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Experience</span>
+      <h2>Where I’ve worked.</h2>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-when"><span class="now">Feb 2020 — Present</span></div>
+        <div>
+          <h3 class="tl-role">Senior Data Analyst / Analytics Specialist</h3>
+          <p class="tl-org">Techpro Solutions Inc. — clients: Capital One &amp; Freddie Mac</p>
+          <p class="tl-desc">
+            Long-running consulting engagement delivering ELT pipelines, dimensional models,
+            identity resolution, data-quality frameworks, and risk dashboards across credit,
+            card, and single-family mortgage portfolios.
+          </p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">Oct 2018 — Feb 2020</div>
+        <div>
+          <h3 class="tl-role">Business Systems Analyst</h3>
+          <p class="tl-org">Rao IT Inc. — client: T-Mobile</p>
+          <p class="tl-desc">
+            Migrated a $7.43B Digital Financial Services (EIP) platform from monolithic to
+            microservices, translating requirements into specs for 7–10 engineers and cutting
+            defect-resolution time by 31%.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-row reveal">
+      <div class="edu">
+        <span class="deg">M.S. Information Systems</span>
+        <span class="meta">Stevens Institute of Technology · Dec 2017 · Hoboken, NJ</span>
+      </div>
+      <div class="edu">
+        <span class="deg">B.E. Electronics &amp; Telecommunication</span>
+        <span class="meta">University of Mumbai · Jun 2014 · Mumbai, India</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact">
+  <div class="wrap contact-inner">
+    <span class="eyebrow reveal">Contact</span>
+    <h2 class="reveal">Let’s talk data.<br>Reach me at <a href="mailto:bhandarytejas92@gmail.com">bhandarytejas92@gmail.com</a></h2>
+    <div class="contact-links reveal">
+      <a class="clink" href="mailto:bhandarytejas92@gmail.com"><span class="ic">@</span> bhandarytejas92@gmail.com</a>
+      <a class="clink" href="https://www.linkedin.com/in/bhandaritejas" target="_blank" rel="noopener"><span class="ic">in</span> linkedin.com/in/bhandaritejas</a>
+      <a class="clink" href="https://github.com/bhandarytejas" target="_blank" rel="noopener"><span class="ic">/</span> github.com/bhandarytejas</a>
+    </div>
+    <div class="foot">
+      <span>© <span id="yr"></span> Tejas Bhandari</span>
+      <span>United States · Built as a single static page</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close certificate">&times;</button>
+  <img id="lbImg" src="" alt="" />
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+  /* ---------- year ---------- */
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- mobile nav ---------- */
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    toggle.addEventListener('click', function(){
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); });
+    });
+  })();
+
+  /* ---------- reduced motion check ---------- */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- scroll reveal ---------- */
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (reduce || !('IntersectionObserver' in window)){
+      els.forEach(function(e){ e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+    els.forEach(function(e){ io.observe(e); });
+  })();
+
+  /* ---------- count-up on hero readout ---------- */
+  (function(){
+    var nums = document.querySelectorAll('#readout .num');
+    function fmt(el, val){
+      var dec = parseInt(el.dataset.dec || '0', 10);
+      var pre = el.dataset.prefix || '';
+      var suf = el.dataset.suffix || '';
+      el.innerHTML = pre + val.toFixed(dec) + '<span class="u">' + suf + '</span>';
+    }
+    if (reduce){
+      nums.forEach(function(el){ fmt(el, parseFloat(el.dataset.count)); });
+      return;
+    }
+    function run(el){
+      var target = parseFloat(el.dataset.count);
+      var start = null, dur = 1100;
+      function step(ts){
+        if (start === null) start = ts;
+        var p = Math.min((ts - start)/dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        fmt(el, target * eased);
+        if (p < 1) requestAnimationFrame(step);
+        else fmt(el, target);
+      }
+      requestAnimationFrame(step);
+    }
+    if (!('IntersectionObserver' in window)){ nums.forEach(function(el){ run(el); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ run(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold:0.5 });
+    nums.forEach(function(el){ fmt(el, 0); io.observe(el); });
+  })();
+  /* ---------- certificate lightbox ---------- */
+  (function(){
+    var lb=document.getElementById('lb'), img=document.getElementById('lbImg'),
+        cap=document.getElementById('lbCap'), closeBtn=document.getElementById('lbClose'), last=null;
+    function open(src,caption){
+      last=document.activeElement;
+      img.src=src; img.alt=caption||''; cap.textContent=caption||'';
+      lb.classList.add('open'); document.body.style.overflow='hidden'; closeBtn.focus();
+    }
+    function close(){
+      lb.classList.remove('open'); img.src=''; document.body.style.overflow='';
+      if(last && last.focus) last.focus();
+    }
+    document.querySelectorAll('.cert button').forEach(function(b){
+      b.addEventListener('click', function(){ open(b.dataset.full, b.dataset.cap); });
+    });
+    closeBtn.addEventListener('click', close);
+    lb.addEventListener('click', function(e){ if(e.target===lb) close(); });
+    document.addEventListener('keydown', function(e){
+      if(e.key==='Escape' && lb.classList.contains('open')) close();
+    });
+  })();
+
+</script>
+
+</body>
+</html>
